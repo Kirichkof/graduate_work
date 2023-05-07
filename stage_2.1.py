@@ -16,5 +16,5 @@ def eq_print(eq: list, version: str) -> None:
         print(f'|{client:^15s}|')
     print('*' * 25)
 
-
-main()
+if __name__ == '__main__':
+    main()
