@@ -1,7 +1,6 @@
-def man_cases(number: int) -> str:
-    remain = number % 100
-    if remain >= 20:
-        remain %= 10
-    if 2 <= remain <= 4:
-        return 'a'
-    return ''
+def get_surname() -> str:
+    return input('Введите фамилию или пустая строка для выхода: ')
+
+
+def get_codes(spec: dict) -> str:
+    return input(f"Введите код операции. Допустимые коды: {spec['codes_available']}: ")
