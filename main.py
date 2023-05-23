@@ -1,41 +1,51 @@
 from datetime import datetime, timedelta
-from random import randint
+from random import choice
 import e_queue as q
 import e_client as c
 
 def main():
-    data = {'codes': 'MNPS'}
+    windows = {'win1': 'M', 
+               'win2': 'NS', 
+               'win3': 'P', 
+               'win4': 'N', 
+               'win5': 'MS'}
     output = {
         'idc_width': 5,
         'surname_width': 15,
         'code_width': 3,
         'date_width': 20,
         'timing_width': 7,
+        'win_width': 6,
         'sep': '|'
     }
-    spec = {'data': data, 'output': output}
+    spec = {'output': output, 'windows': windows}
+
     idc = 1
     eq = {}
     ver = '4.1'
 
+    codes = q.codes_available(spec)
+    win_codes = q.windows_by_code(spec)
+
     while True:
-        eq_print(eq, ver, spec)
+        q.eq_print(eq, ver, spec)
         lenght = len(eq)
-        print(f'Перед вами {lenght} человек{man_cases(lenght)}')
+        print(f'Перед вами {lenght} человек{c.man_cases(lenght)}')
         if lenght != 0:
             mean = sum([client['timing'] for client in eq.values()], start= timedelta(0,0,0,0,0,0))
             mean = str(mean/lenght)[2:7]
             print(f'Среднее время обслуживания {mean}')
-        data = input('Введите фамилию или пустая строка для выхода: ')
-        if data == '':
+        surname = c.get_surname()
+        if surname == '':
             raise KeyboardInterrupt
         while True:
-            code = input(f"Введите код операции. Допустимые коды: {spec['data']['codes']}: ")
-            if is_code_valid(code, spec['data']['codes']):
+            code = c.get_codes(codes)
+            if q.is_code_valid(code, codes):
                 break
             else:
                 print('Неправильный код операции.')
-        eq_add_client(eq, idc, data, code)
+        win = choice(win_codes[code.upper()])
+        q.eq_add_client(eq, idc, surname, code, win)
         idc += 1
 
 
