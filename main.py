@@ -24,7 +24,7 @@ def main():
 
     idc = 1
     eq = {}
-    ver = '4.2'
+    ver = '5.1'
     spec['codes_available'] = q.codes_available(spec)
     spec['win_codes'] = q.windows_by_code(spec)
     spec['win_status'] = {win: None for win in spec['windows'].keys()} 
